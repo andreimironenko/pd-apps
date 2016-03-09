@@ -1,0 +1,398 @@
+diff --git a/configure b/configure
+index 4a10e64..5629a9b 100755
+--- a/configure
++++ b/configure
+@@ -2290,7 +2290,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ # TODO(kapil): Remove 'no-dependencies' flag in future after
+ #   gene: `no-dependencies' flag in future after
+ # http://debbugs.gnu.org/cgi/bugreport.cgi?bug=13928 has been fixed.
+-am__api_version='1.15'
++am__api_version='1.14'
+ 
+ ac_aux_dir=
+ for ac_dir in "$srcdir" "$srcdir/.." "$srcdir/../.."; do
+@@ -2491,8 +2491,8 @@ test "$program_suffix" != NONE &&
+ ac_script='s/[\\$]/&&/g;s/;s,x,x,$//'
+ program_transform_name=`$as_echo "$program_transform_name" | sed "$ac_script"`
+ 
+-# Expand $ac_aux_dir to an absolute path.
+-am_aux_dir=`cd "$ac_aux_dir" && pwd`
++# expand $ac_aux_dir to an absolute path
++am_aux_dir=`cd $ac_aux_dir && pwd`
+ 
+ if test x"${MISSING+set}" != xset; then
+   case $am_aux_dir in
+@@ -2511,7 +2511,7 @@ else
+ $as_echo "$as_me: WARNING: 'missing' script is too old or missing" >&2;}
+ fi
+ 
+-if test x"${install_sh+set}" != xset; then
++if test x"${install_sh}" != xset; then
+   case $am_aux_dir in
+   *\ * | *\	*)
+     install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
+@@ -2839,8 +2839,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
+ # <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+ mkdir_p='$(MKDIR_P)'
+ 
+-# We need awk for the "check" target (and possibly the TAP driver).  The
+-# system "awk" is bad on some platforms.
++# We need awk for the "check" target.  The system "awk" is bad on
++# some platforms.
+ # Always define AMTAR for backward compatibility.  Yes, it's still used
+ # in the wild :-(  We should find a proper way to deprecate it ...
+ AMTAR='$${TAR-tar}'
+@@ -2898,7 +2898,6 @@ END
+   fi
+ fi
+ 
+-
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable maintainer-specific portions of Makefiles" >&5
+ $as_echo_n "checking whether to enable maintainer-specific portions of Makefiles... " >&6; }
+     # Check whether --enable-maintainer-mode was given.
+@@ -5215,76 +5214,6 @@ else
+ 
+ fi
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether GNU_HASH is supported for ELF" >&5
+-$as_echo_n "checking whether GNU_HASH is supported for ELF... " >&6; }
+-if test "$cross_compiling" = yes; then :
+-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+-as_fn_error $? "cannot run test program while cross compiling
+-See \`config.log' for more details" "$LINENO" 5; }
+-else
+-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-
+-           #include <elf.h>
+-           int main() {
+-             printf("DT_GNU_HASH: %d\n", DT_GNU_HASH);
+-             exit(0);
+-           }
+-
+-_ACEOF
+-if ac_fn_c_try_run "$LINENO"; then :
+-  has_gnu_hash='yes'
+-else
+-  has_gnu_hash='no'
+-fi
+-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+-  conftest.$ac_objext conftest.beam conftest.$ac_ext
+-fi
+-
+-if test "$has_gnu_hash" == "yes"; then
+-
+-$as_echo "#define HAS_GNU_HASH 1" >>confdefs.h
+-
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $has_gnu_hash" >&5
+-$as_echo "$has_gnu_hash" >&6; }
+-
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether PR_SET_PTRACER is an option for prctl()" >&5
+-$as_echo_n "checking whether PR_SET_PTRACER is an option for prctl()... " >&6; }
+-if test "$cross_compiling" = yes; then :
+-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+-as_fn_error $? "cannot run test program while cross compiling
+-See \`config.log' for more details" "$LINENO" 5; }
+-else
+-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-
+-           #include <sys/prctl.h>
+-           int main() {
+-             prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0);
+-             prctl(PR_SET_PTRACER, 0, 0, 0, 0);
+-             exit(0);
+-           }
+-
+-_ACEOF
+-if ac_fn_c_try_run "$LINENO"; then :
+-  has_pr_set_ptracer='yes'
+-else
+-  has_pr_set_ptracer='no'
+-fi
+-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+-  conftest.$ac_objext conftest.beam conftest.$ac_ext
+-fi
+-
+-if test "$has_pr_set_ptracer" == "yes"; then
+-
+-$as_echo "#define HAS_PR_SET_PTRACER 1" >>confdefs.h
+-
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $has_pr_set_ptracer" >&5
+-$as_echo "$has_pr_set_ptracer" >&6; }
+ 
+ #check for -lreadline -lhistory v5; does not require curses
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for readline in -lreadline" >&5
+@@ -6758,6 +6687,8 @@ else
+   interp=/lib/ld-linux.so.2
+ fi
+ 
++interp=/lib/ld-linux.so.3
++
+ 
+ cat >>confdefs.h <<_ACEOF
+ #define ELF_INTERPRETER "$interp"
+diff --git a/configure.ac b/configure.ac
+index c07189f..e6ca603 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -322,32 +322,6 @@ else
+   AC_SUBST([ARM_HOST], [no])
+ fi
+ 
+-AC_MSG_CHECKING([whether GNU_HASH is supported for ELF])
+-AC_TRY_RUN([
+-           #include <elf.h>
+-           int main() {
+-             printf("DT_GNU_HASH: %d\n", DT_GNU_HASH);
+-             exit(0);
+-           }
+-           ], [has_gnu_hash='yes'], [has_gnu_hash='no'])
+-if test "$has_gnu_hash" == "yes"; then
+-  AC_DEFINE([HAS_GNU_HASH],[1],[DT_GNU_HASH is defined (e.g., in elf.h).])
+-fi
+-AC_MSG_RESULT([$has_gnu_hash])
+-
+-AC_MSG_CHECKING([whether PR_SET_PTRACER is an option for prctl()])
+-AC_TRY_RUN([
+-           #include <sys/prctl.h>
+-           int main() {
+-             prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY, 0, 0, 0);
+-             prctl(PR_SET_PTRACER, 0, 0, 0, 0);
+-             exit(0);
+-           }
+-           ], [has_pr_set_ptracer='yes'], [has_pr_set_ptracer='no'])
+-if test "$has_pr_set_ptracer" == "yes"; then
+-  AC_DEFINE([HAS_PR_SET_PTRACER],[1],[allow 'gdb attach' when DMTCP_RESTART_PAUSE is defined.])
+-fi
+-AC_MSG_RESULT([$has_pr_set_ptracer])
+ 
+ #check for -lreadline -lhistory v5; does not require curses
+ AC_CHECK_LIB([readline], [readline], [linksReadline=yes], [linksReadline=no], [-lhistory -lcurses])
+@@ -497,6 +471,8 @@ else
+   interp=/lib/ld-linux.so.2
+ fi
+ 
++interp=/lib/ld-linux.so.3
++
+ AC_DEFINE_UNQUOTED([ELF_INTERPRETER],["$interp"],[Generated by readelf -aW | grep interpreter])
+ 
+ AC_CHECK_HEADERS_ONCE([sys/epoll.h sys/eventfd.h sys/signalfd.h sys/inotify.h])
+diff --git a/include/config.h.in b/include/config.h.in
+index 72e887a..7f01eee 100644
+--- a/include/config.h.in
++++ b/include/config.h.in
+@@ -18,12 +18,6 @@
+ /* can use __sync_bool_compare_and_swap(), etc. */
+ #undef HAS_ATOMIC_BUILTINS
+ 
+-/* DT_GNU_HASH is defined (e.g., in elf.h). */
+-#undef HAS_GNU_HASH
+-
+-/* allow 'gdb attach' when DMTCP_RESTART_PAUSE is defined. */
+-#undef HAS_PR_SET_PTRACER
+-
+ /* Define to 1 if you have the <infiniband/verbs.h> header file. */
+ #undef HAVE_INFINIBAND_VERBS_H
+ 
+diff --git a/src/Makefile.in b/src/Makefile.in
+index f9d7cd3..a6fc429 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -1,7 +1,7 @@
+-# Makefile.in generated by automake 1.15 from Makefile.am.
++# Makefile.in generated by automake 1.14.1 from Makefile.am.
+ # @configure_input@
+ 
+-# Copyright (C) 1994-2014 Free Software Foundation, Inc.
++# Copyright (C) 1994-2013 Free Software Foundation, Inc.
+ 
+ # This Makefile.in is free software; the Free Software Foundation
+ # gives unlimited permission to copy and/or distribute it,
+@@ -27,17 +27,7 @@
+ 
+ 
+ VPATH = @srcdir@
+-am__is_gnu_make = { \
+-  if test -z '$(MAKELEVEL)'; then \
+-    false; \
+-  elif test -n '$(MAKE_HOST)'; then \
+-    true; \
+-  elif test -n '$(MAKE_VERSION)' && test -n '$(CURDIR)'; then \
+-    true; \
+-  else \
+-    false; \
+-  fi; \
+-}
++am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
+ am__make_running_with_option = \
+   case $${target_option-} in \
+       ?) ;; \
+@@ -107,12 +97,13 @@ bin_PROGRAMS = $(targetdir)/bin/dmtcp_launch$(EXEEXT) \
+ 	$(targetdir)/bin/dmtcp_nocheckpoint$(EXEEXT)
+ dmtcplib_PROGRAMS = $(targetdir)/lib/dmtcp/libdmtcp.so$(EXEEXT)
+ subdir = src
++DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
++	$(include_HEADERS) $(nobase_noinst_HEADERS) COPYING \
++	COPYING.LESSER
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+-DIST_COMMON = $(srcdir)/Makefile.am $(include_HEADERS) \
+-	$(nobase_noinst_HEADERS) $(am__DIST_COMMON)
+ mkinstalldirs = $(install_sh) -d
+ CONFIG_HEADER = $(top_builddir)/include/config.h
+ CONFIG_CLEAN_FILES =
+@@ -322,7 +313,6 @@ am__define_uniq_tagged_files = \
+ ETAGS = etags
+ CTAGS = ctags
+ DIST_SUBDIRS = $(SUBDIRS)
+-am__DIST_COMMON = $(srcdir)/Makefile.in COPYING COPYING.LESSER
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+ am__relativize = \
+   dir0=`pwd`; \
+@@ -605,6 +595,7 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
+ 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps src/Makefile'; \
+ 	$(am__cd) $(top_srcdir) && \
+ 	  $(AUTOMAKE) --foreign --ignore-deps src/Makefile
++.PRECIOUS: Makefile
+ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
+ 	@case '$?' in \
+ 	  *config.status*) \
+@@ -1094,8 +1085,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-dmtcplibPROGRAMS \
+ 	uninstall-am uninstall-binPROGRAMS uninstall-dmtcplibPROGRAMS \
+ 	uninstall-includeHEADERS
+ 
+-.PRECIOUS: Makefile
+-
+ 
+ mtcp/libmtcp.a:
+ 	cd mtcp && ${MAKE} libmtcp.a
+diff --git a/src/dmtcpplugin.cpp b/src/dmtcpplugin.cpp
+index db4d088..438b449 100644
+--- a/src/dmtcpplugin.cpp
++++ b/src/dmtcpplugin.cpp
+@@ -50,6 +50,7 @@ static dmtcp_fnptr_t userHookPreCheckpoint = NULL;
+ static dmtcp_fnptr_t userHookPostCheckpoint = NULL;
+ static dmtcp_fnptr_t userHookPostRestart = NULL;
+ 
++#if 0
+ //I wish we could use pthreads for the trickery in this file, but much of our
+ //code is executed before the thread we want to wake is restored.  Thus we do
+ //it the bad way.
+@@ -63,6 +64,9 @@ static inline void memfence(){  RMB; WMB; }
+ #else
+ # define memfence() __sync_synchronize()
+ #endif
++#endif
++
++#define memfence()  __sync_synchronize()
+ 
+ EXTERNC int dmtcp_is_enabled() { return 1; }
+ 
+diff --git a/src/membarrier.h b/src/membarrier.h
+index 7bd4199..8fa8c20 100644
+--- a/src/membarrier.h
++++ b/src/membarrier.h
+@@ -19,6 +19,8 @@
+ #ifndef MEM_BARRIER_H
+ #define MEM_BARRIER_H
+ 
++
++#if 0
+ #if defined(__i386__) || defined(__x86_64__)
+ # if defined(__i386__) && defined(__PIC__)
+ // FIXME:  After DMTCP-1.2.5, this can be made only case for i386/x86_64
+@@ -35,9 +37,15 @@
+ #  define IMB
+ # endif
+ #elif defined(__arm__)
+-# define RMB asm volatile (".arch armv7-a \n\t dsb ; dmb" : : : "memory")
+-# define WMB asm volatile (".arch armv7-a \n\t dsb ; dmb" : : : "memory")
+-# define IMB asm volatile (".arch armv7-a \n\t isb" : : : "memory")
++
++//# define RMB asm volatile (".arch armv7-a \n\t dsb ; dmb" : : : "memory")
++//# define WMB asm volatile (".arch armv7-a \n\t dsb ; dmb" : : : "memory")
++//# define IMB asm volatile (".arch armv7-a \n\t isb" : : : "memory")
++
++# define RMB __sync_synchronize()
++# define WMB __sync_synchronize()
++# define IMB __sync_synchronize()
++
+ #elif defined(__aarch64__)
+ # define RMB asm volatile ("dsb sy ; dmb sy" : : : "memory")
+ # define WMB asm volatile ("dsb sy ; dmb sy" : : : "memory")
+@@ -45,5 +53,11 @@
+ #else
+ # error "instruction architecture not implemented"
+ #endif
++#endif
++
++# define RMB __sync_synchronize()
++# define WMB __sync_synchronize()
++# define IMB __sync_synchronize()
++
+ 
+ #endif
+diff --git a/src/mtcp/Makefile.in b/src/mtcp/Makefile.in
+index f662337..a44af34 100644
+--- a/src/mtcp/Makefile.in
++++ b/src/mtcp/Makefile.in
+@@ -82,7 +82,7 @@ libs: build
+ build: $(targetdir)/bin/$(MTCP_RESTART) libmtcp.a
+ 
+ $(targetdir)/bin/$(MTCP_RESTART): mtcp_restart.o ${ARM_BINARIES}
+-	${LINK} -fPIC -g -O0 -nodefaultlibs $^
++	${LINK} -fPIC -g -O0 $^
+ 
+ # We need to compile mtcp_restart.c with "-fno-stack-protector" to avoid
+ # runtime stack smashing detection.
+diff --git a/src/mtcp/mtcp_restart.c b/src/mtcp/mtcp_restart.c
+index ef603a3..2a9b02d 100644
+--- a/src/mtcp/mtcp_restart.c
++++ b/src/mtcp/mtcp_restart.c
+@@ -65,6 +65,8 @@ void mtcp_check_vdso(char **environ);
+ #define BINARY_NAME "mtcp_restart"
+ #define BINARY_NAME_M32 "mtcp_restart-32"
+ 
++#define memfence() __sync_synchronize()
++
+ /* struct RestoreInfo to pass all parameters from one function to next.
+  * This must be global (not on stack) at the time that we jump from
+  * original stack to copy of restorememoryareas() on new stack.
+@@ -401,7 +403,7 @@ static void restart_fast_path()
+ #endif
+ 
+ #if defined(__arm__) || defined(__aarch64__)
+-# if 0
++# if 1
+   memfence();
+ # else
+ // FIXME: Replace this code by memfence() for __aarch64__, once it is stable.
+@@ -575,7 +577,7 @@ static void restorememoryareas(RestoreInfo *rinfo_ptr)
+   DPRINTF("close cpfd %d\n", restore_info.fd);
+   mtcp_sys_close (restore_info.fd);
+ 
+-  IMB; /* flush instruction cache, since mtcp_restart.c code is now gone. */
++   IMB; /* flush instruction cache, since mtcp_restart.c code is now gone. */
+ 
+   /* Restore libc */
+   DPRINTF("Memory is now restored.  Will next restore libc internals.\n");
+diff --git a/src/mtcp/mtcp_util.ic b/src/mtcp/mtcp_util.ic
+index c19c586..428d068 100644
+--- a/src/mtcp/mtcp_util.ic
++++ b/src/mtcp/mtcp_util.ic
+@@ -34,6 +34,8 @@
+ #include "mtcp_util.h"
+ #include "../membarrier.h"
+ 
++
++
+ unsigned long mtcp_strtol (char *str)
+ {
+   int mtcp_sys_errno=0;
